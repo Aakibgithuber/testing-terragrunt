@@ -6,17 +6,26 @@ on:
       - main
 
   workflow_dispatch:
+    inputs:
+      choice:
+        type: choice
+        description: "Select the target environment"
+        required: true
+        default: dev
+        options:
+          - dev
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
+    environment: ${{ inputs.choice }}
 
     env:
       TG_PARALLELISM: 4
       AWS_REGION: ${{ secrets.AWS_REGION }}
-      TF_VAR_S3_BUCKET_NAME: "navirego-dev-sftp-dump12122"
-      TF_VAR_SFTP_PASS: "o3gnBzJPL1P0KHgQb051uVtIrHvCq6N0tNJ23bEpSmGzD"
-      TF_VAR_DB_PASSWORD: "Admin1234!"
+      TF_VAR_S3_BUCKET_NAME: ${{ secrets.SFTP_BUCKET_NAME }}
+      TF_VAR_SFTP_PASS: ${{ secrets.SFTP_PASS }}
+      TF_VAR_DB_PASSWORD: ${{ secrets.RDS_DB_PASSWORD }}
 
     steps:
       - name: Checkout repository
