@@ -1,0 +1,30 @@
+{
+  "compilerOptions": {
+    "target": "ES2022",
+    "module": "commonjs",
+    "lib": ["ES2022"],
+    "outDir": "./dist",
+    "rootDir": "./src",
+    "strict": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "declaration": true,
+    "sourceMap": false,
+    "resolveJsonModule": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noImplicitReturns": true,
+
+    // local /opt layer path resolution
+    "baseUrl": ".",
+    "paths": {
+      "/opt/nodejs/dist": ["../layers/common-utils/nodejs/dist"],
+      "/opt/nodejs/node_modules/ssh2-sftp-client": [
+        "../layers/heavy-dependencies/nodejs/node_modules/ssh2-sftp-client"
+      ]
+    }
+  },
+  "include": ["src/**/*", "src/types/**/*.d.ts"],
+  "exclude": ["node_modules", "dist", "**/*.test.ts"]
+}
