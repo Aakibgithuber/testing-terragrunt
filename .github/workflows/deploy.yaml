@@ -3,7 +3,7 @@ name: Deploy Infrastructure with Terragrunt
 on:
   push:
     branches:
-      - master
+      - main
 
   workflow_dispatch:
 
