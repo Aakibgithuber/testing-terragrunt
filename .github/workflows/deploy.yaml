@@ -6,26 +6,17 @@ on:
       - main
 
   workflow_dispatch:
-    inputs:
-      environment:
-        type: choice
-        description: "Deployment Environment"
-        required: true
-        default: dev
-        options:
-          - dev
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
-    environment: ${{ inputs.environment }}
 
     env:
       TG_PARALLELISM: 4
       AWS_REGION: ${{ secrets.AWS_REGION }}
-      TF_VAR_S3_BUCKET_NAME: ${{ secrets.SFTP_BUCKET_NAME }}
-      TF_VAR_SFTP_PASS: ${{ secrets.SFTP_PASS }}
-      TF_VAR_DB_PASSWORD: ${{ secrets.RDS_DB_PASSWORD }}
+      TF_VAR_S3_BUCKET_NAME: "navirego-dev-sftp-dump12122"
+      TF_VAR_SFTP_PASS: "o3gnBzJPL1P0KHgQb051uVtIrHvCq6N0tNJ23bEpSmGzD"
+      TF_VAR_DB_PASSWORD: "Admin1234!"
 
     steps:
       - name: Checkout repository
@@ -51,17 +42,18 @@ jobs:
 
       - name: Make all shell scripts executable
         run: |
-          echo "Setting execute permissions for all .sh files..."
+          echo " Setting execute permissions for all .sh files..."
           find . -type f -name "*.sh" -exec chmod +x {} \;
 
       - name: Run deploy-all.sh before Terragrunt plan
         working-directory: ./scripts
-        run: ./deploy-all.sh
+        run: |
+          ./deploy-all.sh
 
-      - name: Run Terragrunt plan
-        working-directory: ./live/${{ inputs.environment }}
+      - name: Run Terragrunt plan (dev)
+        working-directory: ./live/dev
         run: |
           echo "🧩 Using TF_VAR_S3_BUCKET_NAME=$TF_VAR_S3_BUCKET_NAME"
           echo "🧩 Using TF_VAR_SFTP_PASS=$TF_VAR_SFTP_PASS"
           echo "🧩 Using TF_VAR_DB_PASSWORD=$TF_VAR_DB_PASSWORD"
-          terragrunt run-all apply --terragrunt-non-interactive -auto-approve
+          terragrunt run-all destroy --terragrunt-non-interactive -auto-approve
