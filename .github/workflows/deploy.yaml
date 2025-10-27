@@ -14,9 +14,9 @@ jobs:
     env:
       TG_PARALLELISM: 4
       AWS_REGION: ${{ secrets.AWS_REGION }}
-      TF_VAR_S3_BUCKET_NAME: "docker-navirego-dev-sftp-dump12122"
+      TF_VAR_S3_BUCKET_NAME: "navirego-dev-sftp-dump12122"
       TF_VAR_SFTP_PASS: "o3gnBzJPL1P0KHgQb051uVtIrHvCq6N0tNJ23bEpSmGzD"
-      TF_VAR_DB_PASSWORD: "Admin1234!" # will take from github env variables after testing
+      TF_VAR_DB_PASSWORD: "Admin1234!"
 
     steps:
       - name: Checkout repository
@@ -39,6 +39,12 @@ jobs:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: ${{ env.AWS_REGION }}
+
+      - name: Run deploy-all.sh before Terragrunt plan
+        working-directory: ./scripts
+        run: |
+          chmod +x deploy-all.sh
+          ./deploy-all.sh
 
       - name: Run Terragrunt plan (dev)
         working-directory: ./live/dev
