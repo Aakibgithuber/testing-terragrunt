@@ -1,0 +1,38 @@
+# Ignore Node.js build artefacts
+node_modules/
+dist/
+build/
+
+# Terragrunt cache and TF local files
+.terragrunt-cache/
+.terraform/
+*.tfstate
+*.tfstate.backup
+*.tfvars
+*.tfvars.json
+
+# Terraform lock files
+.terraform.lock.hcl
+
+
+# Logs and OS junk
+*.log
+.DS_Store
+Thumbs.db
+
+# Lambda zip artifacts
+*.zip
+
+# TypeScript build outputs
+*.js.map
+*.d.ts
+
+# IDE junk
+.vscode/
+.idea/
+
+# Layers build folders
+lambda-src/**/build/
+lambda-src/**/dist/
+live/**/layers/**/build/
+live/**/layers/**/dist/
