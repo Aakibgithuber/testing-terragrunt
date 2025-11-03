@@ -16,7 +16,6 @@ jobs:
       AWS_REGION: ${{ secrets.AWS_REGION }}
       TF_VAR_S3_BUCKET_NAME: "navirego-dev-sftp-dump"
       TF_VAR_SFTP_PASS: "o3gnBzJPL1P0KHgQb051uVtIrHvCq6N0tNJ23bEpSmGzD"
-      TF_VAR_DB_PASSWORD: "N8smt8ApkDtpU4T2"
 
     steps:
       - name: Checkout repository
