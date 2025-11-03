@@ -55,4 +55,4 @@ jobs:
           echo "🧩 Using TF_VAR_S3_BUCKET_NAME=$TF_VAR_S3_BUCKET_NAME"
           echo "🧩 Using TF_VAR_SFTP_PASS=$TF_VAR_SFTP_PASS"
           echo "🧩 Using TF_VAR_DB_PASSWORD=$TF_VAR_DB_PASSWORD"
-          terragrunt run-all apply --terragrunt-non-interactive -auto-approve
+          terragrunt run-all destroy --terragrunt-non-interactive -auto-approve
