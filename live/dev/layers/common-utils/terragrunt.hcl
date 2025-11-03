@@ -11,5 +11,5 @@ inputs = {
   description         = "Common TypeScript utilities for Navirego Lambda functions"
   compatible_runtimes = ["nodejs20.x", "nodejs18.x"]
   s3_bucket           = "navirego-lambda-layers-dev"
-  s3_key              = "lambda-layers/common-utils/common-utils.zip"
+  s3_key              = "lambda-layers/common-utils/common-utils-layer.zip"
 }
