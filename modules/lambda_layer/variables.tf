@@ -15,7 +15,11 @@ variable "compatible_runtimes" {
   default     = ["nodejs20.x", "nodejs18.x"]
 }
 
-variable "source_path" {
-  description = "Path to the layer zip file"
-  type        = string
+variable "s3_bucket" {
+  description = "S3 bucket containing the layer zip (optional)"
+  default     = ""
+}
+variable "s3_key" {
+  description = "S3 key for layer zip (optional)"
+  default     = ""
 }

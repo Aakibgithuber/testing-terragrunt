@@ -8,7 +8,9 @@ terraform {
 resource "aws_lambda_layer_version" "this" {
   layer_name          = var.layer_name
   description         = var.description
-  filename            = var.source_path
-  source_code_hash    = filebase64sha256(var.source_path)
+
+  # Choose between local file or S3
+  s3_bucket     = var.s3_bucket
+  s3_key        = var.s3_key
   compatible_runtimes = var.compatible_runtimes
 }

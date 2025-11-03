@@ -10,5 +10,6 @@ inputs = {
   layer_name          = "navirego-heavy-deps-dev"
   description         = "Heavy libraries (SFTP, SSH2) for Navirego Lambda functions"
   compatible_runtimes = ["nodejs20.x", "nodejs18.x"]
-  source_path         = "${get_terragrunt_dir()}/../../../../lambda-src/layers/heavy-dependencies/dist/heavy-dependencies-layer.zip"
+  s3_bucket           = "navirego-lambda-layers-dev"
+  s3_key              = "lambda-layers/heavy-dependencies/heavy-dependencies-layer.zip"
 }

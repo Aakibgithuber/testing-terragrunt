@@ -14,6 +14,10 @@ LAYERS=(
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 PROJECT_ROOT="$(cd "$SCRIPT_DIR/.." && pwd)"
 
+# Your target S3 bucket (keep in GitHub secret TF_VAR_LAYERS_BUCKET_NAME)
+S3_BUCKET="${TF_VAR_LAYERS_BUCKET_NAME:-navirego-lambda-layers-dev}"
+S3_PREFIX="lambda-layers"
+
 cd "$PROJECT_ROOT"
 
 for layer in "${LAYERS[@]}"; do
@@ -31,7 +35,6 @@ for layer in "${LAYERS[@]}"; do
 
   cd "$LAYER_DIR"
 
-  # Make build script executable
   if [ -f "build.sh" ]; then
     chmod +x build.sh
     ./build.sh
@@ -41,17 +44,16 @@ for layer in "${LAYERS[@]}"; do
   fi
 
   cd "$PROJECT_ROOT"
+
+  ZIP_PATH="lambda-src/layers/$layer/dist/${layer}-layer.zip"
+
+  if [ -f "$ZIP_PATH" ]; then
+    echo "📦 Uploading $ZIP_PATH to s3://$S3_BUCKET/$S3_PREFIX/$layer/"
+    aws s3 cp "$ZIP_PATH" "s3://$S3_BUCKET/$S3_PREFIX/$layer/"
+  else
+    echo "❌ Zip not found for layer: $layer"
+  fi
 done
 
 echo ""
-echo "=========================================="
-echo "✅ All layers built successfully!"
-echo "=========================================="
-echo ""
-echo "📦 Built layers:"
-for layer in "${LAYERS[@]}"; do
-  ZIP_FILE="lambda-src/layers/$layer/dist/${layer}-layer.zip"
-  if [ -f "$ZIP_FILE" ]; then
-    echo "  - $layer: $(du -h "$ZIP_FILE" | cut -f1)"
-  fi
-done
+echo "✅ All layers built and uploaded successfully!"

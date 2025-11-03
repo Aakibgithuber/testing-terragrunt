@@ -10,5 +10,6 @@ inputs = {
   layer_name          = "navirego-common-utils-dev"
   description         = "Common TypeScript utilities for Navirego Lambda functions"
   compatible_runtimes = ["nodejs20.x", "nodejs18.x"]
-  source_path         = "${get_terragrunt_dir()}/../../../../lambda-src/layers/common-utils/dist/common-utils-layer.zip"
+  s3_bucket           = "navirego-lambda-layers-dev"
+  s3_key              = "lambda-layers/common-utils/common-utils.zip"
 }
